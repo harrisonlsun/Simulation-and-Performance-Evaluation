@@ -11,16 +11,25 @@
 
 /**
  * int main()
- * This is the main function. It reads in an ac.dat data file in tab separated format. The first column contains the arrival times and the second column
+ * 
+ ************* Terminal Arguments *************
+ * @param int argc - number of arguments      *
+ * @param char* argv[] - array of arguments   *
+ **********************************************
+ * 
+ * @return 0 if successful
+ * 
+ * This is the main function. It reads in a data file in tab separated format. The first column contains the arrival times and the second column
  * contains departure times. This function calculates the average service time, the server utilization, and the traffic intensity.  
  */
 
 int main(int argc, char* argv[])
 {
-    /* Read in the ac.dat file and store the arrival times and departure times as two vectors. */
+    /* Read in the data file and store the arrival times and departure times as two vectors. */
     std::vector<double> arrival_times {};
     std::vector<double> departure_times {};
-    std::ifstream infile("ac.dat");
+
+    std::ifstream infile = (argc > 1) ? std::ifstream(argv[1]) : std::ifstream("ac.dat");
     double arrival_time {};
     double departure_time {};
     while (infile >> arrival_time >> departure_time)
@@ -80,4 +89,6 @@ int main(int argc, char* argv[])
     double trafficIntensity { average_service_time / interarrival_rate };
 
     std::cout << "The traffic intensity is: " << trafficIntensity << std::endl;
+	
+    return 0;
 }

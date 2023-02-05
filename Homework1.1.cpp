@@ -1,3 +1,12 @@
+/**
+ * Modified February 4, 2023 by hlsun
+ * sun.har@northeastern.edu
+ * 
+ * Added            : Calculations for (1) Maximum Delay, (2) Number of jobs at a given time, (3) Proportion of jobs delayed.
+ * Changed          : Changed language from C to C++. Changed to use terminal arguments.
+ * Compile with     : g++ -Wall -o Homework1.1 Homework1.1.cpp
+ */
+
 
 /* -------------------------------------------------------------------------
  * This program simulates a single-server FIFO service node using arrival
@@ -16,61 +25,68 @@
  * ------------------------------------------------------------------------- 
  */
 
-#include <stdio.h>                              
+#include <stdio.h>   
+#include <stdlib.h> 
 
-#define FILENAME   "ssq1.dat"                  /* input data file */
-#define START      0.0
+#define FILENAME    "ssq1.dat"                  /* input data file */
+#define TIMESET     400.0                       /* time at which number of jobs in the service node is calculated */
+#define START       0.0
 
 /* =========================== */
-   double GetArrival(FILE *fp)                 /* read an arrival time */
+    double GetArrival(FILE *fp)                 /* read an arrival time */
 /* =========================== */
 { 
-  double a;
+    double a;
 
-  fscanf(fp, "%lf", &a);
-  return (a);
+    fscanf(fp, "%lf", &a);
+    return (a);
 }
 
 /* =========================== */
-   double GetService(FILE *fp)                 /* read a service time */
+    double GetService(FILE *fp)                 /* read a service time */
 /* =========================== */
 { 
-  double s;
+    double s;
 
-  fscanf(fp, "%lf\n", &s);
-  return (s);
+    fscanf(fp, "%lf\n", &s);
+    return (s);
 }
 
 /* ============== */
-   int main(void)
+    int main(int argc, char* argv[])
 /* ============== */
 {
-  FILE   *fp;                                  /* input data file      */
-  long   index     = 0;                        /* job index            */
-  double arrival   = START;                    /* arrival time         */
-  double delay;                                /* delay in queue       */
-  double service;                              /* service time         */
-  double wait;                                 /* delay + service      */
-  double departure = START;                    /* departure time       */
-  struct {                                     /* sum of ...           */
+    FILE   *fp;                                  /* input data file      */
+    long   index     = 0;                        /* job index            */
+    double arrival   = START;                    /* arrival time         */
+    double delay;                                /* delay in queue       */
+    double service;                              /* service time         */
+    double wait;                                 /* delay + service      */
+    double departure = START;                    /* departure time       */
+    struct {                                     /* sum of ...           */
     double delay;                              /*   delay times        */
     double wait;                               /*   wait times         */
     double service;                            /*   service times      */
     double interarrival;                       /*   interarrival times */
-  } sum = {0.0, 0.0, 0.0};
+    } sum = {0.0, 0.0, 0.0};
 
-  double MaxDelay = 0;                         /* This variable stores the maximum delay.  */
-  int numJobsAtT = 0;                          /* This variable stores the number of jobs at a given time. */
-  int timeT = 400;                             /* This variable stores the time at which to calculate numJobsAtT. */
-  int numJobsDelayed = 0;                      /* This variable stores the number of jobs delayed. */
+    double MaxDelay = 0;                         /* This variable stores the maximum delay.  */
+    int numJobsAtT = 0;                          /* This variable stores the number of jobs at a given time. */
+    int timeT = (int) TIMESET;                   /* This variable stores the time at which to calculate numJobsAtT. */
+    int numJobsDelayed = 0;                      /* This variable stores the number of jobs delayed. */
 
-  fp = fopen(FILENAME, "r");
-  if (fp == NULL) {
+	/* If filename is specified as a terminal argument, use that. Else, use the default filename. */
+	fp = (argc > 1) ? fopen(argv[1], "r") : fopen(FILENAME, "r");
+    
+	/* If time is specified as a terminal argument, use that. Else, use the default time. */
+	timeT = (argc > 2) ? atoi(argv[2]) : timeT;
+
+    if (fp == NULL) {
     fprintf(stderr, "Cannot open input file %s\n", FILENAME);
     return (1);
-  }
+    }
 
-  while (!feof(fp)) {
+    while (!feof(fp)) {
     index++;
     arrival      = GetArrival(fp);
     if (arrival < timeT)
@@ -81,7 +97,7 @@
 		numJobsDelayed++;                   /* Increment the number of jobs delayed. */
     }
     else 
-      delay      = 0.0;                        /* no delay          */
+        delay      = 0.0;                        /* no delay          */
     service      = GetService(fp);
     wait         = delay + service;
     departure    = arrival + wait;             /* time of departure */
@@ -93,21 +109,21 @@
     /* If the delay is greater than the previous maximum delay, store it as MaxDelay. */
     if (delay > MaxDelay)
     {
-      MaxDelay = delay;
+        MaxDelay = delay;
     }
-  }
-  sum.interarrival = arrival - START;
+    }
+    sum.interarrival = arrival - START;
 
-  printf("\nfor %ld jobs\n", index);
-  printf("   average interarrival time \t= \t%6.2f\n", sum.interarrival / index);
-  printf("   average service time .... \t= \t%6.2f\n", sum.service / index);
-  printf("   average delay ........... \t= \t%6.2f\n", sum.delay / index);
-  printf("   average wait ............ \t= \t%6.2f\n", sum.wait / index);
+    printf("\nfor %ld jobs\n", index);
+    printf("   average interarrival time \t= \t%6.2f\n", sum.interarrival / index);
+    printf("   average service time .... \t= \t%6.2f\n", sum.service / index);
+    printf("   average delay ........... \t= \t%6.2f\n", sum.delay / index);
+    printf("   average wait ............ \t= \t%6.2f\n", sum.wait / index);
 
-  printf("   maximum delay ........... \t= \t%6.2f\n", MaxDelay);
-  printf("   number of jobs at t = %d  \t= \t%6.1d\n", timeT, numJobsAtT);
-  printf("   proportion of jobs delayed\t= \t%6.2f\n", (double) numJobsDelayed / index);
+    printf("   maximum delay ........... \t= \t%6.2f\n", MaxDelay);
+    printf("   number of jobs at t = %d  \t= \t%6.1d\n", timeT, numJobsAtT);
+    printf("   proportion of jobs delayed\t= \t%6.2f\n", (double) numJobsDelayed / index);
 
-  fclose(fp);
-  return (0);
+    fclose(fp);
+    return (0);
 }
