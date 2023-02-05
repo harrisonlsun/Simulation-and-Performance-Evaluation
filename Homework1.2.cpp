@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 
     /* Calculate the service time as departure time minus the start time of the job. */
     double total_service_time {};
-    for (int i = 0; i < arrival_times.size(); i++)
+    for (int i = 0; i < arrival_times.size(); ++i)
     {
         /* Check if the service node is free at arrival */
         if (arrival_times[i] > departure_times[i-1])
@@ -52,25 +52,32 @@ int main(int argc, char* argv[])
     std::cout << "The average service time is: " << average_service_time << std::endl;
 
     /* Calculate the server utilization */
-    /* Cycle through both vectors and use the lesser value as the next time point. */
-    double server_utilization {};
-    int i {0};
-    int j {0};
-    while (i < arrival_times.size() && j < departure_times.size())
+    /* Calculate the start time for each job. */
+    double timeUtilized{0};
+    for (int i = 0; i < arrival_times.size(); ++i)
     {
-        if (arrival_times[i] < departure_times[j])
-        {
-            server_utilization += (departure_times[j] - arrival_times[i]);
-            i++;
-        }
-        else
-        {
-            server_utilization += (departure_times[j] - departure_times[j-1]);
-            j++;
-        }
+		/* Check if the service node is free at arrival */
+		if (arrival_times[i] > departure_times[i - 1])
+		{
+			timeUtilized += departure_times[i] - arrival_times[i];
+		}
+		/* If the job has to wait in a queue, the service starts after the previous job is finished */
+		else
+		{
+			timeUtilized += departure_times[i] - departure_times[i - 1];
+		}
     }
     /* Divide the server utilization by the total amount of time the program is run. */
-    server_utilization /= departure_times[departure_times.size()-1];
+    timeUtilized /= departure_times[departure_times.size()-1];
     /* Print the server utilization time. */
-    std::cout << "The server utilization is: " << server_utilization << std::endl;
+    std::cout << "The server utilization is: " << timeUtilized << std::endl;
+	
+	/* Calculate the traffic intensity */
+	/* The traffic intensity is calculated as the ratio of the interarrival rate to service rate. */
+	/* Calculate the interarrival rate. */
+    double interarrival_rate{ arrival_times[arrival_times.size() - 1] / arrival_times.size() };
+
+    double trafficIntensity { average_service_time / interarrival_rate };
+
+    std::cout << "The traffic intensity is: " << trafficIntensity << std::endl;
 }
