@@ -83,7 +83,7 @@ int Throw_Die(void)
 	else
 	{
 		std::cerr << "Error: Random number is greater than 1." << std::endl;
-		throw std::logic_error("My code is broken.");
+		throw std::logic_error("My code is broken. This really shouldn't happen.");
 	}
 	return die;
 }
