@@ -11,9 +11,82 @@
 #define DEFAULTSEED		0L
 #define NUMRUNS			1000000L
 
+#include <exception>
 #include <iostream>
 #include <stdlib.h>
 #include "c_lib/rng.h"
+
+/************************************************************************ GLOBAL ************************************************************************************/
+/* Dice Weights */																																					//
+double oneFaceWeight{ ONEFACEWEIGHT };																																//
+double otherFaceWeight{ OTHERWEIGHT };																																//
+double sixFaceWeight{ SIXFACEWEIGHT };																																//
+																																									//
+/* TOTAL WEIGHT */																																					//
+double totalWeight{ oneFaceWeight + sixFaceWeight + 4 * otherFaceWeight };																							//
+																																									//
+/* Dice Probabilities */																																			//
+double p1 = oneFaceWeight / totalWeight;																															//
+double pOther = otherFaceWeight / totalWeight;																														//
+double p6 = sixFaceWeight / totalWeight;																															//
+																																									//
+/* Define the thresholds */																																			//
+double threshold1 = p1;																																				//
+double threshold2 = threshold1 + pOther;																															//
+double threshold3 = threshold2 + pOther;																															//
+double threshold4 = threshold3 + pOther;																															//
+double threshold5 = threshold4 + pOther;																															//
+double threshold6 = threshold5 + p6;		/* threshold6 should be equal to 1 */																					//
+																																									//
+/********************************************************************************************************************************************************************/
+
+
+/**
+ * int Throw_Die(void)
+ * 
+ * @param void
+ * 
+ * @return int - the number of the face of the die
+ * 
+ * This function simulates the throwing of a die. It returns the number of the face of the die.
+ */
+
+int Throw_Die(void)
+{
+	/* Roll the die */
+	double r = Random();
+	int die{};
+	if (r < threshold1)
+	{
+		die = 1;
+	}
+	else if (r < threshold2)
+	{
+		die = 2;
+	}
+	else if (r < threshold3)
+	{
+		die = 3;
+	}
+	else if (r < threshold4)
+	{
+		die = 4;
+	}
+	else if (r < threshold5)
+	{
+		die = 5;
+	}
+	else if (r < threshold6)
+	{
+		die = 6;
+	}
+	else
+	{
+		std::cerr << "Error: Random number is greater than 1." << std::endl;
+		throw std::logic_error("My code is broken.");
+	}
+	return die;
+}
 
 /**
  * int main()
@@ -39,101 +112,21 @@ int main(int argc, char* argv[])
 	/* Random Number Generator */
 	PutSeed(seed);
 	
-	/* Dice Weights */
-	double oneFaceWeight	{ ONEFACEWEIGHT		};
-	double otherFaceWeight	{ OTHERWEIGHT		};
-	double sixFaceWeight	{ SIXFACEWEIGHT		};
-	
-	/* TOTAL WEIGHT */
-	double totalWeight		{ oneFaceWeight + sixFaceWeight + 4 * otherFaceWeight };
-
-	/* Dice Probabilities */
-	double p1 = oneFaceWeight / totalWeight;
-	double pOther = otherFaceWeight / totalWeight;
-	double p6 = sixFaceWeight / totalWeight;
-
-	/* Define the thresholds */
-	double threshold1		= p1;
-	double threshold2		= threshold1 + pOther;
-	double threshold3		= threshold2 + pOther;
-	double threshold4		= threshold3 + pOther;
-	double threshold5		= threshold4 + pOther;
-	double threshold6		= threshold5 + p6;		/* threshold6 should be equal to 1 */
-	
 	/* Number of times the sum of the two up-faces is 7 */
 	long num_7{ 0 };
+
+	/* Roll the dice twice and add the faces together */
 	for (int i = 0; i < num_runs; ++i)
 	{
-		/* Roll the first die */
-		double r = Random();
-		int first_die{};
-		if (r < threshold1)
+		/* Try-Catch Block to catch exceptions (Sum(Pr) != 1) */
+		try 
 		{
-			first_die = 1;
+			num_7 = (Throw_Die() + Throw_Die() == 7) ? ++num_7 : num_7;
 		}
-		else if (r < threshold2)
+		catch (const std::logic_error& error)
 		{
-			first_die = 2;
-		}
-		else if (r < threshold3)
-		{
-			first_die = 3;
-		}
-		else if (r < threshold4)
-		{
-			first_die = 4;
-		}
-		else if (r < threshold5)
-		{
-			first_die = 5;
-		}
-		else if (r < threshold6)
-		{
-			first_die = 6;
-		}
-		else
-		{
-			std::cout << "Error: Random number is greater than 1." << std::endl;
-			return 1;
-		}
-
-		/* Roll the second die */
-		r = Random();
-		int second_die{};
-		if (r < threshold1)
-		{
-			second_die = 1;
-		}
-		else if (r < threshold2)
-		{
-			second_die = 2;
-		}
-		else if (r < threshold3)
-		{
-			second_die = 3;
-		}
-		else if (r < threshold4)
-		{
-			second_die = 4;
-		}
-		else if (r < threshold5)
-		{
-			second_die = 5;
-		}
-		else if (r < threshold6)
-		{
-			second_die = 6;
-		}
-		else
-		{
-			std::cout << "Error: Random number is greater than 1." << std::endl;
-			return 1;
-		}
-
-		/* Check if the sum of the two up-faces is 7 */
-		if (first_die + second_die == 7)
-		{
-			++num_7;
+			std::cerr << error.what() << std::endl;
+			return -1;
 		}
 	}
 
