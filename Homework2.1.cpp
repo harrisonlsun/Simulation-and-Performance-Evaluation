@@ -4,7 +4,7 @@
  * 
  * Added            : Calculations for (1) Maximum Delay, (2) Number of jobs at a given time, (3) Proportion of jobs delayed.
  * Changed          : Changed language from C to C++. Changed to use terminal arguments.
- * Compile with     : g++ -Wall -o Homework1.1 Homework1.1.cpp
+ * Compile with     : g++ -Wall -o Homework2.1 Homework2.1.cpp
  */
 
 
