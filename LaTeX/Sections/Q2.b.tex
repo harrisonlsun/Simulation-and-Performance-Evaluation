@@ -1,0 +1,2 @@
+\textbf{\noindent(b) Be explicit: For $i = 1,2,...,n$, how does $s_i$ related to $a_{i-1}$,$a_i$,$c_{i-1}$ and $c_i$?\\\\}
+When $a_i$ is greater than $c_{i-1}$, this means that there is no delay before $a_i$ can start being processed. Thus, $s_i = c_i - a_i$. However, when $a_i$ is less than $c_{i-1}$, this means that job $i$ has to wait in the queue. Therefore, in this case, $s_i = c_i - c_{i-1}$. \\\\
