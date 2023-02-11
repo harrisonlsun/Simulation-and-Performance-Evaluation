@@ -11,9 +11,12 @@
  * -------------------------------------------------------------------------
  */
 
+#include <exception>
 #include <iostream>
 #include <cstdlib>
+#include <cstring>
 #include <stdio.h>
+#include <string>
 #include <math.h>                                             
 #include "c_lib/rng.h"
 
@@ -67,10 +70,41 @@ double GetArrival(void)
 double GetService(void)
 {
     /* Generate the next service time */
-    
+
     return (Exponential(1.5));
 }
 
+/* function to check if the input is a number */
+bool checkArg(char* input)
+{
+    try 
+    {
+        if (strlen(input) > 9)
+        {
+            throw std::logic_error("Number is too large.");
+        }
+
+        for (int i = 0; i < strlen(input); ++i)
+        {
+
+            if (std::isdigit(input[i])) continue;
+            else
+            {
+                std::string errorMessage;
+                errorMessage.append((std::string)input);
+                errorMessage.append(" is not a digit.");
+                throw std::logic_error(errorMessage);
+            }
+        }
+        return 1;
+    }
+
+    catch (const std::logic_error& error)
+    {
+        std::cerr << error.what() << std::endl;
+        return 0;
+    }
+}
 
 int main(int argc, char* argv[])
 {
@@ -87,14 +121,35 @@ int main(int argc, char* argv[])
         double interarrival;                        /*   interarrival times */
     } sum = { 0.0, 0.0, 0.0 };
 
-    /* set the seed to the first terminal argument if it exists, else set to 123456789 */
+    long numRuns{};                                  /* number of runs */
     
-    PutSeed((argc > 1) ? std::stol(argv[1]) : 123456789);
+    // Set the seed
+    for (int i = 1; i < argc; ++i)
+    {
+        if (*argv[i] == 's' && checkArg(argv[i + 1]))
+        {
+            PutSeed(std::stol(argv[i + 1]));
+            break;
+        }
+        else
+        {
+            PutSeed(123456789);
+        }
+    }
 
-    /* set long numRuns to the second terminal argument if it exists, else set to LAST */
-    
-    long numRuns = (argc > 2) ? std::stol(argv[2]) : LAST;
-    std::cout << numRuns;
+    // Set the number of runs
+    for (int i = 1; i < argc; ++i)
+    {
+        if (*argv[i] == 'r' && checkArg(argv[i + 1]))
+        {
+            numRuns = std::stol(argv[i + 1]);
+            break;
+        }
+        else
+        {
+            numRuns = 10000;
+        }
+    }
     
     while (index < numRuns) {
         index++;
