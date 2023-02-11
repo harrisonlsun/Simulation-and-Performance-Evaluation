@@ -155,13 +155,13 @@ int main(int argc, char* argv[])
     t.completion = INFINITY;        /* the first event can't be a completion */
 
     while ((t.arrival < endtime) || (number > 0)) {
-        t.next = Min(t.arrival, t.completion);  /* next event time   */
+        t.next = Min(t.arrival, t.completion);          /* next event time   */
         if (number > 0) {                               /* update integrals  */
             area.node += (t.next - t.current) * number;
             area.queue += (t.next - t.current) * (number - 1);
             area.service += (t.next - t.current);
         }
-        t.current = t.next;                    /* advance the clock */
+        t.current = t.next;                         /* advance the clock */
 
         if (t.current == t.arrival) {               /* process an arrival */
             if (number < queuesize)
