@@ -1,54 +1,33 @@
-
-/* -------------------------------------------------------------------------
- * This program - an extension of program ssq1.c - simulates a single-server
- * FIFO service node using Exponentially distributed interarrival times and
- * Uniformly distributed service times (i.e. a M/U/1 queue).
- *
- * Name              : ssq2.c  (Single Server Queue, version 2)
- * Author            : Steve Park & Dave Geyer
- * Language          : ANSI C
- * Latest Revision   : 9-11-98
- * -------------------------------------------------------------------------
+/**
+ * Homework 3.2
+ * EECE 5643 - Simulation and Performance Evaluation
+ * Author: Harrison Sun
+ * Email: sun.har@northeastern.edu
  */
 
-#include <exception>
-#include <iostream>
 #include <cstdlib>
 #include <cstring>
 #include <stdio.h>
+#include <exception>
+#include <iostream>
+#include <math.h> 
 #include <string>
-#include <math.h>                                             
-#include "c_lib/rng.h"
+#include "c_lib/rvgs.h"
+#include "c_lib/rngs.h"
 
-#define LAST         10000L                   /* number of jobs processed */ 
-#define START        0.0                      /* initial time             */ 
+#define LAST         10000L                   /* number of jobs processed */
+#define START        0.0                      /* initial time             */
 
+ /**
+  * double GetArrival()
+  *
+  * @param void
+  * @return arrival - the next arrival time
+  *
+  * This function calculates the arrival times for each process.
+  */
 
-double Exponential(double m)
-/* ---------------------------------------------------
- * generate an Exponential random variate, use m > 0.0
- * ---------------------------------------------------
- */
-{
-    return (-m * log(1.0 - Random()));
-}
-
-
-double Uniform(double a, double b)
-/* --------------------------------------------
- * generate a Uniform random variate, use a < b
- * --------------------------------------------
- */
-{
-    return (a + (b - a) * Random());
-}
-
-
-double GetArrival(void)
-/* ------------------------------
- * generate the next arrival time
- * ------------------------------
- */
+double GetArrival()
 {
     static double arrival = START;
 
@@ -57,27 +36,39 @@ double GetArrival(void)
 }
 
 
-//double GetService(void)
-///* ------------------------------
-// * generate the next service time
-// * ------------------------------
-// */
-//{
-//    return (Uniform(1.0, 2.0));
-//}
+/**
+ * double GetService()
+ *
+ * @param void
+ * @return sum - the total service time for the process
+ *
+ * This function calculates the service times for each process.
+ */
 
-/* Changing the GetService(void) function to return Exponential(1.5) service times */
-double GetService(void)
+double GetService()
 {
-    /* Generate the next service time */
-
-    return (Exponential(1.5));
+    long k{};
+    double sum{ 0.0 };
+    long tasks = 1 + Geometric(0.9);
+    for (k = 0; k < tasks; ++k)
+    {
+        sum += Uniform(0.1, 0.2);
+    }
+    return sum;
 }
 
-/* function to check if the input is a number */
+/**
+ * bool checkArg()
+ *
+ * @param char* input - the input string literal from the console
+ * @return bool - true if the input is a number, false otherwise
+ *
+ * This function determines whether the argument is a number.
+ */
+
 bool checkArg(char* input)
 {
-    try 
+    try
     {
         if (strlen(input) > 9)
         {
@@ -106,6 +97,15 @@ bool checkArg(char* input)
     }
 }
 
+/**
+ * int main()
+ *
+ * @param int argc - the number of arguments
+ * @param char* argv[] - the arguments
+ *
+ * @return int - 0 if the program runs successfully
+ */
+
 int main(int argc, char* argv[])
 {
     long   index = 0;                         /* job index            */
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
     } sum = { 0.0, 0.0, 0.0 };
 
     long numRuns{};                                  /* number of runs */
-    
+
     // Set the seed
     for (int i = 0; i < argc; ++i)
     {
@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
             numRuns = 10000;
         }
     }
-    
+
     while (index < numRuns) {
         index++;
         arrival = GetArrival();
@@ -175,6 +175,5 @@ int main(int argc, char* argv[])
     printf("   average # in the node ... = %6.2f\n", sum.wait / departure);
     printf("   average # in the queue .. = %6.2f\n", sum.delay / departure);
     printf("   utilization ............. = %6.2f\n", sum.service / departure);
-
-    return (0);
+    return 0;
 }
