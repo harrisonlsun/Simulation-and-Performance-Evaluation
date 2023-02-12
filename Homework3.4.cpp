@@ -40,14 +40,14 @@ double GetArrival()
 }
 
 
-double GetService()
+double GetService(double lb, double ub)
 /* --------------------------------------------
  * generate the next service time with rate 2/3
  * --------------------------------------------
  */
 {
     SelectStream(1);
-    return (Uniform(1.0, 2.0));
+    return (Uniform(lb, ub));
 }
 
 /**
@@ -71,7 +71,7 @@ bool checkArg(char* input)
         for (int i = 0; i < strlen(input); ++i)
         {
 
-            if (std::isdigit(input[i])) continue;
+            if (std::isdigit(input[i]) || (input[i] == '.')) continue;
             else
             {
                 std::string errorMessage;
@@ -109,6 +109,8 @@ int main(int argc, char* argv[])
     long number = 0;                    /* number in the node                  */
     double endtime{};
     int queuesize{};
+    double lowerBound{};
+    double upperBound{};
     // Set the seed
     for (int i = 0; i < argc; ++i)
     {
@@ -150,6 +152,22 @@ int main(int argc, char* argv[])
             queuesize = MAXQUEUE;
         }
     }
+
+    // Set the bounds for uniform distribution (service time)
+    for (int i = 0; i < argc; ++i)
+    {
+        if (*argv[i] == 'u' && checkArg(argv[i + 1]) && checkArg(argv[i + 1]))
+        {
+			lowerBound = std::stol(argv[i + 1]);
+			upperBound = std::stol(argv[i + 2]);
+            break;
+        }
+        else
+        {
+			lowerBound = 1.0;
+			upperBound = 2.0;
+        }
+    }
     t.current = START;           /* set the clock                         */
     t.arrival = GetArrival();    /* schedule the first arrival            */
     t.completion = INFINITY;        /* the first event can't be a completion */
@@ -173,7 +191,7 @@ int main(int argc, char* argv[])
                     t.arrival = INFINITY;
                 }
                 if (number == 1)
-                    t.completion = t.current + GetService();
+                    t.completion = t.current + GetService(lowerBound, upperBound);
             }
             else
             {
@@ -184,7 +202,7 @@ int main(int argc, char* argv[])
                     t.arrival = INFINITY;
                 }
                 if (number == 1)
-                    t.completion = t.current + GetService();
+                    t.completion = t.current + GetService(lowerBound, upperBound);
             }
         }
 
@@ -192,7 +210,7 @@ int main(int argc, char* argv[])
             index++;
             number--;
             if (number > 0)
-                t.completion = t.current + GetService();
+                t.completion = t.current + GetService(lowerBound, upperBound);
             else
                 t.completion = INFINITY;
         }
