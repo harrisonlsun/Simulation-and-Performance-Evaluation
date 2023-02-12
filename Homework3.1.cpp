@@ -1,3 +1,8 @@
+/**
+ * Modified by Harrison Sun
+ * sun.har@northeastern.edu
+ * February 11, 2023
+ */
 
 /* -------------------------------------------------------------------------
  * This program - an extension of program ssq1.c - simulates a single-server

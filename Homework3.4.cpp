@@ -1,3 +1,24 @@
+/**
+ * Modified by Harrison Sun
+ * sun.har@northeastern.edu
+ * February 11, 2023
+ */
+
+ /* -------------------------------------------------------------------------
+  * This program is a next-event simulation of a single-server FIFO service
+  * node using Exponentially distributed interarrival times and Uniformly
+  * distributed service times (i.e., a M/U/1 queue).  The service node is
+  * assumed to be initially idle, no arrivals are permitted after the
+  * terminal time STOP, and the service node is then purged by processing any
+  * remaining jobs in the service node.
+  *
+  * Name            : ssq3.c  (Single Server Queue, version 3)
+  * Author          : Steve Park & Dave Geyer
+  * Language        : ANSI C
+  * Latest Revision : 10-19-98
+  * -------------------------------------------------------------------------
+  */
+
 #include <cstdlib>
 #include <cstring>
 #include <stdio.h>
@@ -10,7 +31,7 @@
 
 #define START         0.0              /* initial time                   */
 #define STOP      20000.0              /* terminal (close the door) time */
-//#define INFINITY   (10000.0 * STOP)    /* must be much larger than endtime  */
+//#define INFINITY   (10000.0 * STOP)  /* must be much larger than STOP  */
 #define MAXQUEUE     6                 /* max. # of jobs in queue        */
 
 
@@ -93,20 +114,20 @@ bool checkArg(char* input)
 int main(int argc, char* argv[])
 {
     struct {
-        double arrival;                 /* next arrival time                   */
-        double completion;              /* next completion time                */
-        double current;                 /* current time                        */
-        double next;                    /* next (most imminent) event time     */
-        double last;                    /* last arrival time                   */
+        double arrival;                 /* next arrival time                                */
+        double completion;              /* next completion time                             */
+        double current;                 /* current time                                     */
+        double next;                    /* next (most imminent) event time                  */
+        double last;                    /* last arrival time                                */
     } t;
     struct {
-        double node;                    /* time integrated number in the node  */
-        double queue;                   /* time integrated number in the queue */
-        double service;                 /* time integrated number in service   */
+        double node;                    /* time integrated number in the node               */
+        double queue;                   /* time integrated number in the queue              */
+        double service;                 /* time integrated number in service                */
     } area = { 0.0, 0.0, 0.0 };
-    long index = 0;                     /* used to count departed jobs         */
-	long reject{};                      /* number of jobs rejected because of full queue */
-    long number = 0;                    /* number in the node                  */
+    long index{};                       /* used to count departed jobs                      */
+	long reject{};                      /* number of jobs rejected because of full queue    */
+    long number{};                      /* number in the node                               */
     double endtime{};
     int queuesize{};
     double lowerBound{};
