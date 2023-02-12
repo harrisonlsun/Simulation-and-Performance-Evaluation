@@ -28,7 +28,7 @@ double Min(double a, double c)
 
 double GetArrival()
 /* ---------------------------------------------
- * generate the next arrival time, with rate 1/2
+ * generate the next arrival time
  * ---------------------------------------------
  */
 {
@@ -76,7 +76,7 @@ bool checkArg(char* input)
             {
                 std::string errorMessage;
                 errorMessage.append((std::string)input);
-                errorMessage.append(" is not a digit.");
+                errorMessage.append(" is not a number.");
                 throw std::logic_error(errorMessage);
             }
         }
