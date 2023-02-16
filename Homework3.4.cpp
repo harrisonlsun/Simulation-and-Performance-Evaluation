@@ -237,6 +237,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    /*
     printf("\nfor %ld jobs\n", index);
     printf("   average interarrival time = %6.2f\n", t.last / index);
     printf("   average wait ............ = %6.2f\n", area.node / index);
@@ -245,6 +246,7 @@ int main(int argc, char* argv[])
     printf("   average # in the node ... = %6.2f\n", area.node / t.current);
     printf("   average # in the queue .. = %6.2f\n", area.queue / t.current);
 	printf("   number of rejections..... = %6.2ld\n", reject);
+    */
 	printf("   percent of rejections.... = %6.2f\n", ((double)reject / (index+reject)) * 100);
     printf("   utilization ............. = %6.2f\n", area.service / t.current);
 
