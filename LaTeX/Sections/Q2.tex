@@ -1,0 +1,36 @@
+\textbf{(a) Verify that the mean service time in Example 3.1.4 is 1.5.}\\
+\textbf{(b) Verify that the steady-state statistics in Example 3.1.4 seem to be correct.}\\
+\textbf{(c) Note that the arrival rate, service rate, and utilization are the same as those in Example 3.1.3. Explain (or conjecture) why this is so. Be Specific.}\\
+\begin{center}
+\includegraphics[scale=0.75]{Sections/Q2/3.1.3.png}\\
+\vspace{10pt}
+\includegraphics[scale=0.75]{Sections/Q2/3.1.4.png}\\
+\end{center}
+\newpage
+\vspace{35pt}
+\begin{center}
+    \includegraphics[scale=0.75]{Sections/Q2/H3_2.png}
+\end{center}
+\newpage
+\begin{table}[h]
+\centering
+\begin{tabular}{l|lllll}
+                  & 123456 & 246810 & 1357911 & 987654321 & 12357 \\
+                  \hline\\
+interarrival time & 2.00   & 2.00   & 2.00    & 2.00      & 2.00  \\
+wait time         & 5.61   & 5.82   & 5.58    & 5.73      & 5.66  \\
+delay time        & 4.10   & 4.31   & 4.09    & 4.23      & 4.16  \\
+service time      & 1.50   & 1.50   & 1.50    & 1.50      & 1.49  \\
+number in node    & 2.80   & 2.90   & 2.79    & 2.86      & 2.82  \\
+number in queue   & 2.05   & 2.15   & 2.04    & 2.11      & 2.08  \\
+utilization       & 0.75   & 0.75   & 0.75    & 0.75      & 0.75 
+\end{tabular}
+\end{table}
+\noindent The arrival rate is the same because the interarrival time is defined by the same distribution as in Example 3.1.3: $r \sim Exponential(2.0)$.\\\\
+
+\noindent The average service rate is the same as in Example 3.1.3 due to the distribution of the service times. The average number of tasks $\Bar{t}$ of $t \sim 1+ Geometric(0.9)$ is $1$ plus the inverse of $p=0.9$. Therefore, the average number of tasks is 10. The average of $Uniform(0.1, 0.2)$ is $0.15$. Multiplying this and the number of tasks together results in an average service rate $\Bar{s} = 1.5$, which is the same as the service rate in Example 3.1.3.\\\\
+
+\noindent The server utilization is the same as in Example 3.1.3 because the average interarrival times and average service rates are the same in both examples. The server utilization is a ratio of the interarrival and service time averages.
+
+\newpage
+\include{Sections/Q2/Q2_Code.tex}

@@ -1,0 +1,12 @@
+\textbf{Let $\beta$ be the probability of feedback and let the integer-valued random variable $\mathcal{X}$ be the number of times a job feeds back.}\\\\
+
+\noindent \textbf{(a) For $x$ = 0,1,2,... what is $Pr(\mathcal{X} = x)$?}\\\\
+
+\noindent The probability of feedback $Pr(\mathcal{X} = x)$ is equal to $\beta^x \times (1 - \beta)$. That is, the probability of each feedback is defined by $\beta$ and the single successful job completion is defined by $1-\beta$.\\\\
+
+\noindent \textbf{(b) How does this relate to the discussion of acceptance/rejection in Section 2.3 (i.e., Example 2.3.8)?}\\\\
+
+\noindent The probability of feedback is analogous to rejection of the job. Therefore, it can be modeled similarly to the acceptance/rejection model with the acceptance criteria encompassing $1-\beta$ of the feature space and $\beta$ encompassing the remainder (outside of the acceptance area) of the feature space. In this case, a two dimensional feature space is not required and can be flattened to a single line.
+
+\newpage
+\include{Sections/Q3/Q3_Code.tex}

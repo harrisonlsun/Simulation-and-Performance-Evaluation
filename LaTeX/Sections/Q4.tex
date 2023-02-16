@@ -1,0 +1,46 @@
+\textbf{Modify program ssq2 to account for a finite queue capacity.}\\\\
+
+\noindent \textbf{(a) For the queue capacities 1,2,3,4,5, and 6, construct a table of the estimated steady-state probability of rejection.}\\\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|lll}
+Uniform(1.0, 2.0) & 123456 & 246810 & 97531 \\
+\hline\\
+Rejection Q = 1   & 18.53  & 18.45  & 18.19 \\
+Rejection Q = 2   & 8.98   & 9.05   & 8.78  \\
+Rejection Q = 3   & 4.77   & 4.76   & 4.55  \\
+Rejection Q = 4   & 2.65   & 2.61   & 2.51  \\
+Rejection Q = 5   & 1.45   & 1.52   & 1.35  \\
+Rejection Q = 6   & 0.83   & 0.85   & 0.74 
+\end{tabular}
+\end{table}
+
+\noindent \textbf{(b) Also, construct a similar table if the service-time distribution is changed to be $Uniform(1.0, 3.0)$.}\\\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|lll}
+Uniform(1.0, 3.0) & 123456 & 246810 & 97531 \\
+\hline\\
+Rejection Q = 1   & 27.66  & 27.58  & 27.24 \\
+Rejection Q = 2   & 18.45   & 18.30   & 18.11  \\
+Rejection Q = 3   & 13.82   & 13.69   & 13.41  \\
+Rejection Q = 4   & 10.93   & 10.77   & 10.55  \\
+Rejection Q = 5   & 9.05   & 8.86   & 8.60  \\
+Rejection Q = 6   & 7.74   &   7.55 & 7.43 
+\end{tabular}
+\end{table}
+
+\noindent \textbf{(c) Comment on how the probability of rejection depends on the service process.}\\\\
+
+\noindent The probability of rejection increases when the service time increases. This makes sense, as a higher service time allows the queue to build up, particularly when the interarrival rate is faster than the service time.\\\\
+
+\noindent \textbf{(d) How did you convince yourself these tables are correct?}\\\\
+This makes sense, as the increased service time increases the rejection rate. Additionally, a longer queue makes the rejection rate decrease, as the service node can handle multiple jobs arriving in a short period of time given that the queue has space. \\\\
+\begin{center}
+\includegraphics[scale=0.75]{Sections/Q4/H3_4_A.png}\\
+\includegraphics[scale=0.75]{Sections/Q4/H3_4_B.png}\\
+\end{center}
+
+\include{Sections/Q4/Q4_Code.tex}
