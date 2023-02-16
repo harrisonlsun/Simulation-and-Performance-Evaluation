@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
         t.current = t.next;                         /* advance the clock */
 
         if (t.current == t.arrival) {               /* process an arrival */
-            if (number < queuesize)
+            if (number <= queuesize)
             {
                 number++;
                 t.arrival = GetArrival();
