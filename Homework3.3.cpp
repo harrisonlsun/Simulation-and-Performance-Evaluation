@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Set the number of runs
+    // Set the probability of feedback
     for (int i = 0; i < argc; ++i)
     {
         if (*argv[i] == 'B' && checkArg(argv[i + 1]))
