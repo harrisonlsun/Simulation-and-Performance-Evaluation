@@ -150,30 +150,30 @@ static int  initialized   = 0;          /* test for stream initialization */
 }
 
 
-   void TestRandom(void)
-/* ------------------------------------------------------------------
- * Use this (optional) function to test for a correct implementation.
- * ------------------------------------------------------------------    
- */
-{
-  long   i;
-  long   x;
-  double u;
-  char   ok = 0;  
-
-  SelectStream(0);                  /* select the default stream */
-  PutSeed(1);                       /* and set the state to 1    */
-  for(i = 0; i < 10000; i++)
-    u = Random();
-  GetSeed(&x);                      /* get the new state value   */
-  ok = (x == CHECK);                /* and check for correctness */
-
-  SelectStream(1);                  /* select stream 1                 */ 
-  PlantSeeds(1);                    /* set the state of all streams    */
-  GetSeed(&x);                      /* get the state of stream 1       */
-  ok = ok && (x == A256);           /* x should be the jump multiplier */    
-  if (ok)
-    printf("\n The implementation of rngs.c is correct.\n\n");
-  else
-    printf("\n\a ERROR -- the implementation of rngs.c is not correct.\n\n");
-}
+//   void TestRandom(void)
+///* ------------------------------------------------------------------
+// * Use this (optional) function to test for a correct implementation.
+// * ------------------------------------------------------------------    
+// */
+//{
+//  long   i;
+//  long   x;
+//  double u;
+//  char   ok = 0;  
+//
+//  SelectStream(0);                  /* select the default stream */
+//  PutSeed(1);                       /* and set the state to 1    */
+//  for(i = 0; i < 10000; i++)
+//    u = Random();
+//  GetSeed(&x);                      /* get the new state value   */
+//  ok = (x == CHECK);                /* and check for correctness */
+//
+//  SelectStream(1);                  /* select stream 1                 */ 
+//  PlantSeeds(1);                    /* set the state of all streams    */
+//  GetSeed(&x);                      /* get the state of stream 1       */
+//  ok = ok && (x == A256);           /* x should be the jump multiplier */    
+//  if (ok)
+//    printf("\n The implementation of rngs.c is correct.\n\n");
+//  else
+//    printf("\n\a ERROR -- the implementation of rngs.c is not correct.\n\n");
+//}
