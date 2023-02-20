@@ -24,7 +24,7 @@ bool checkArg(char* input)
             throw std::logic_error("Number is too large.");
         }
 
-        for (int i = 0; i < strlen(input); ++i)
+        for (int i = 0; i < (int) strlen(input); ++i)
         {
 
             if (std::isdigit(input[i]) || (input[i] == '.')) continue;
