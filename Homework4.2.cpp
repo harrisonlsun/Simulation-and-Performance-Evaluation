@@ -16,7 +16,7 @@
 #include <vector>
 #include "c_lib/rvgs.h"
 #include "c_lib/rngs.h"
-#include "checkarg.h"
+#include "checkarg/checkarg.h"
 
 #define DEFAULT_N_BOX		1000
 #define DEFAULT_N_BALLS		2000
