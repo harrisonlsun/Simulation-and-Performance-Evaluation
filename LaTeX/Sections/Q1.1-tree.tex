@@ -1,0 +1,200 @@
+% Set the overall layout of the tree
+\tikzstyle{level 1}=[level distance=3.5cm, sibling distance=5cm]
+\tikzstyle{level 2}=[level distance=3.5cm, sibling distance=2.5cm]
+\tikzstyle{level 3}=[level distance=3.5cm, sibling distance=1.8cm]
+
+% Define styles for bags and leafs
+\tikzstyle{bag} = [text width=4em, text centered]
+\tikzstyle{end} = [circle, minimum width=3pt,fill, inner sep=0pt]
+
+\begin{tikzpicture}[grow=right, sloped]
+\node[bag] {Search $S_A$}
+    child {
+        node[bag] {Forest B}   
+            child {
+                node[bag] {$S_B$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(B \cap S_B \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$0.85$}
+                }
+            child {
+                node[end, label=right:
+                    {F \quad $P(B \cap S_B \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0.15$}
+                }
+                edge from parent
+                node[above] {$P(S_B)$}
+                node[below] {0}
+            } 
+            child {
+                node[bag] {$S_A$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(B \cap S_A \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$1$}
+            }
+            child {
+                node[end, label=right:
+                    {F \quad $P(B \cap S_A \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0$}
+            }
+                edge from parent
+                node[above] {$P(S_A)$}
+                node[below] {1}
+            }
+            edge from parent 
+            node[above] {$P(B)$}
+            node[below]  {$0.6$}
+    } % end of forest B
+    child {
+        node[bag] {Forest A}        
+        child {
+                node[bag] {$S_B$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(A \cap S_B \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$1$}
+                }
+            child {
+                node[end, label=right:
+                    {F \quad $P(A \cap S_B \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0$}
+                }
+                edge from parent
+                node[above] {$P(S_B)$}
+                node[below] {0}
+            } 
+            child {
+                node[bag] {$S_A$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(A \cap S_A \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$0.75$}
+            }
+            child {
+                node[end, label=right:
+                    {F \quad $P(A \cap S_A \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0.25$}
+            }
+                edge from parent
+                node[above] {$P(S_A)$}
+                node[below] {1}
+            }
+        edge from parent         
+            node[above] {$P(A)$}
+            node[below]  {$0.4$}
+    }; % end of forest A
+\end{tikzpicture}
+\\
+\begin{tikzpicture}[grow=right, sloped]
+\node[bag] {Search $S_B$}
+    child {
+        node[bag] {Forest B}   
+            child {
+                node[bag] {$S_B$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(B \cap S_B \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$0.85$}
+                }
+            child {
+                node[end, label=right:
+                    {F \quad $P(B \cap S_B \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0.15$}
+                }
+                edge from parent
+                node[above] {$P(S_B)$}
+                node[below] {1}
+            } 
+            child {
+                node[bag] {$S_A$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(B \cap S_A \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$1$}
+            }
+            child {
+                node[end, label=right:
+                    {F \quad $P(B \cap S_A \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0$}
+            }
+                edge from parent
+                node[above] {$P(S_A)$}
+                node[below] {0}
+            }
+            edge from parent 
+            node[above] {$P(B)$}
+            node[below]  {$0.6$}
+    } % end of forest B
+    child {
+        node[bag] {Forest A}        
+        child {
+                node[bag] {$S_B$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(A \cap S_B \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$1$}
+                }
+            child {
+                node[end, label=right:
+                    {F \quad $P(A \cap S_B \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0$}
+                }
+                edge from parent
+                node[above] {$P(S_B)$}
+                node[below] {1}
+            } 
+            child {
+                node[bag] {$S_A$}
+                child {
+                node[end, label=right:
+                    {!F \quad $P(A \cap S_A \cap !F)$}] {}
+                edge from parent
+                node[above] {$P(!F)$}
+                node[below]  {$0.75$}
+            }
+            child {
+                node[end, label=right:
+                    {F \quad $P(A \cap S_A \cap F)$}] {}
+                edge from parent
+                node[above] {$P(F)$}
+                node[below]  {$0.25$}
+            }
+                edge from parent
+                node[above] {$P(S_A)$}
+                node[below] {0}
+            }
+        edge from parent         
+            node[above] {$P(A)$}
+            node[below]  {$0.4$}
+    }; % end of forest A
+\end{tikzpicture}

@@ -1,0 +1,40 @@
+\subsection{Maximizing Day 1}
+\input{Sections/Q1.1-tree.tex} \\
+{\bf Given:}\\    
+    $ P(A) = 0.4 \quad P(B) = 0.6 \quad P(D_N) = n/n+2 \quad P(F_{N}|S_A \cap A) = 0.25 \quad P(F_{N}|S_B \cap B) = 0.15 $\\ \\
+{\bf Solution:}\\
+    {\color{blue}It is better to search Forest A.}\\ \\
+{\bf Explanation:}\\
+    Oscar is given the choice between searching Forest A or searching Forest B. Therefore, $P(S_A)$ or $P(S_B)$ can be set to 1, but the other will take the value of 0. \\\\
+    Assume that $P(S_A) = 1$. \\
+    \begin{center}
+        P($F|S_A$) = P($F \cap S_A$)\slash P($S_A$) \\
+        $S_A$ = $S_A \cap A$ + $S_A \cap B$ \\
+        P($F|S_{A}$) = \{P($F \cap S_{A}\cap A$) + P($F \cap S_{A}\cap B$)\}\slash \{P($S_A \cap A$)+P($S_A \cap B$)\} \\
+        P($F \cap S_{A}\cap B$) = 0 \\
+        P($F|S_{A}$) = {P($F \cap S_{A}\cap A$)}\slash\{P($S_{A} \cap A$)+ P($S_{A}\cap B$)\} \\
+        P($S_A \cap A$) + P($S_A \cap B$) = P($S_A$) = 1 \\
+        P($F|S_{A}$) = P($F \cap S_A \cap A$) \\
+        P($F|S_A \cap A$) = P($F \cap S_A \cap A$)\slash P($A$) \\
+        P($F \cap S_A \cap A$) =  P($F_N|S_A \cap A$)*P($A$) \\ 
+        P($F|S_{A}$) = P($F_N|S_A \cap A$)*P($A$) \\
+        P($F|S_{A}$) = $0.25*0.4$ \\
+        P($F|S_{A}$) = 0.1 \\
+    \end{center}
+    Now assume that $P(S_B) = 1$. \\
+    \begin{center}
+        P($F|S_B$) = P($F \cap S_B$)\slash P($S_B$) \\
+        $S_B$ = $S_B \cap A$ + $S_B \cap B$ \\
+        P($F|S_{B}$) = \{P($F \cap S_{B}\cap A$) + P($F \cap S_{B}\cap B$)\}\slash \{P($S_B \cap A$)+P($S_B \cap B$)\} \\
+        P($F \cap S_{B}\cap A$) = 0 \\
+        P($F|S_{B}$) = {P($F \cap S_{B}\cap B$)}\slash\{P($S_{B} \cap A$)+ P($S_{B}\cap B$)\} \\
+        P($S_B \cap A$) + P($S_B \cap B$) = P($S_B$) = 1 \\
+        P($F|S_{B}$) = P($F \cap S_B \cap B$) \\
+        P($F|S_B \cap B$) = P($F \cap S_B \cap B$)\slash P($B$) \\
+        P($F \cap S_B \cap B$) =  P($F_N|S_B \cap B$)*P($B$) \\ 
+        P($F|S_{B}$) = P($F_N|S_B \cap B$)*P($B$) \\
+        P($F|S_{A}$) = $0.15*0.6$ \\
+        P($F|S_{A}$) = 0.09 \\
+    \end{center}
+    Since P($F|S_{A}$) $>$ P($F|S_{B}$), Oscar should search Forest A.
+\pagebreak

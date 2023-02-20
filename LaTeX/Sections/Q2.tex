@@ -1,0 +1,28 @@
+\input{Sections/Q2-tree.tex}\\
+{\bf Given:}\\    
+    $ P(A) = \dfrac{1}{3} \quad P(B) = \dfrac{2}{3} \quad P(D_{N}|A) = \dfrac{4}{5} \quad P(D_{N}|B) = \dfrac{3}{5} \quad P(F_{N}|S_A \cap A) = \dfrac{1}{2} \quad P(F_{N}|S_B \cap B) = \dfrac{2}{5} $\\ \\
+    \begin{tabbing}
+        \hspace{15em}Finding the dog alive\hspace{10em}\=      \hspace{2.5pt}\$60\\
+        \hspace{15em}Each day of search\>         -\$3   \\
+        \hspace{15em}Finding dog dead\>           \hspace{2.5pt}\$0   \\
+        \hspace{15em}Not finding dog\>            -\$10  \\
+        \hspace{15em}Searching in both forests\>  -\$3   \\
+    \end{tabbing} 
+{\bf Solution:}
+    {\color{blue}Expectation is \$10.93.}\\ \\
+\pagebreak \\
+{\bf Explanation:}\\
+Oscar searches for his dog in Forest B and then in Forest A if he does not find his dog on the first day. If he finds his dog on the first day, it is guaranteed to be alive. Therefore, if the dog is in Forest B, the possible situations are Oscar finds his dog on the first day ($v=\$57$) or he does not find his dog and moves on to Forest A. In the latter case, Oscar has a value of ($v=-\$19$) as he will not find his dog when he looks in Forest A and will waste two days worth of time. Likewise, if the dog is in Forest A and Oscar does not find it, the value is ($v=-\$19$). If the dog is in Forest A and is found alive, the value is ($v=\$51$). If the dog is in Forest A and is found dead, the value is ($v=-\$9$).   \\\\
+Knowing this, the following table can be concluded. Red indicates value lost and blue indicates value gained.\\
+\begin{align*}
+    &P(A \cap F \cap Alive) &\dfrac{1}{3}&*\dfrac{1}{2}*\dfrac{4}{5} \hspace{10pt}     &\dfrac{2}{15} \hspace{60pt} &{\color{blue}\$51}\\
+    &P(A \cap F \cap Dead) &\dfrac{1}{3}&*\dfrac{1}{2}*\dfrac{1}{5} \hspace{10pt}     &\dfrac{1}{30} \hspace{60pt} &{\color{red}\$9}\\
+    &P(A \cap !F) &\dfrac{1}{3}&*\dfrac{1}{2}\hspace{10pt}     &\dfrac{1}{6} \hspace{60pt}  &{\color{red}\$19}\\
+    &P(B \cap F) &\dfrac{2}{3}&*\dfrac{2}{5}\hspace{10pt}     &\dfrac{4}{15} \hspace{60pt}  &{\color {blue}\$57}\\
+    &P(B \cap !F) &\dfrac{2}{3}&*\dfrac{3}{5}\hspace{10pt}     &\dfrac{2}{5} \hspace{60pt} &{\color{red}\$19}\\
+\end{align*}
+Expectation is calculated as the sum of the multiplication of probability and value divided by the total probability. In this case, the total value of probability adds up to 1. \\
+\begin{center}
+    $\sum_{i=1}^{\infty} p_i*v_i$
+\end{center}
+Using the values from the table above, the expected value of searching for Oscar's dog is \$10.93.

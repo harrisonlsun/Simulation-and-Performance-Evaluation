@@ -1,0 +1,27 @@
+\subsection{Probability of Forest A Given a Coin Flip and the Dog was Found}
+\input{Sections/Q1.3-tree.tex} \\
+{\bf Given:}\\    
+    $ P(A) = 0.4 \quad P(B) = 0.6 \quad P(D_N) = n/n+2 \quad P(F_{N}|S_A \cap A) = 0.25 \quad P(F_{N}|S_B \cap B) = 0.15 \\ P(S_A)=P(S_B)=0.5$\\ \\
+{\bf Solution:}\\
+    {\color{blue}P($S_A|F$) = 0.526}\\ \\
+{\bf Explanation:}\\
+    Oscar flipped a fair coin to determine which forest he looked in and found his dog. The probability that he looked in Forest A is given by P($S_A|F$). \\
+    \begin{equation*}
+        P(S_A|F) = \frac{P(S_A \cap F)}{P(F)}  \\
+    \end{equation*}
+    For the dog to be found while searching Forest A, the dog must be in Forest A. Therefore, $S_A|F$ implies $A \cap S_A \cap F$. Furthermore, since the forest searched is chosen by a fair coin flip, it is independent from which forest the dog is in. 
+    \begin{align*}
+        P(A \cap S_A) &= P(A)*P(S_A) \\
+        P(S_A|F) &= \frac{P(S_A \cap F)}{P(F)}  \\
+    \end{align*}
+    The probability of finding the dog P($F$) is described by $P(A \cap S_A)*P(F|A\cap S_A) + P(B \cap S_B)*P(F|B\cap S_B)$.
+    \begin{equation} \label{eq7}
+        P(F) = P(A \cap S_A)*P(F|A\cap S_A) + P(B \cap S_B)*P(F|B\cap S_B) \\
+    \end{equation}
+    Thus, \\
+    \begin{align*}
+        P(S_A|F) &= \frac{P(S_A \cap F)}{P(A \cap S_A)*P(F|A\cap S_A) + P(B \cap S_B)*P(F|B\cap S_B)} \\
+         P(S_A|F) &= \frac{0.4*0.5*0.25}{0.4*0.5*0.25+0.6*0.5*0.15} \\
+        P(S_A|F) &= 0.526 \\
+    \end{align*}
+\pagebreak
