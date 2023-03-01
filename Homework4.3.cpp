@@ -319,7 +319,7 @@ int main(int argc, char* argv[])
 	outputFile.open(outputFileName);
 	for (auto it = scoreCount.begin(); it != scoreCount.end(); ++it)
 	{
-		outputFile << it->first << "," << it->second << std::endl;
+		outputFile << it->first << "," << (double) it->second / (double) nRuns << std::endl;
 	}
 	outputFile.close();
 
