@@ -223,7 +223,6 @@ int main(int argc, char* argv[])
 
 
 	// Run the simulation nRuns times
-	std::cout << "Run sim\n"; /*****************************/
 	for (int n = 0; n < nRuns; ++n)
 	{
 		// Reset the number of questions to the default
@@ -240,9 +239,9 @@ int main(int argc, char* argv[])
 			// Determine the class of the question
 			int questionClass = (question <= nc1) ? 1 : 2;
 			// Determine the value of the question based on the class conditional probability and decrement the question class
-			int random01 = Uniform(0, 1);
+			double random01 = Uniform(0, 1);
 			// Store the cumulative value of the questions
-			int cumulativeValue{ 0 };
+			static int cumulativeValue{ 0 };
 			
 			if (questionClass == 1)
 			{
@@ -309,7 +308,8 @@ int main(int argc, char* argv[])
 				{
 					scoreCount.push_back(std::make_pair(cumulativeValue, 1));
 				}
-				std::cout << "f4\n";
+				// Reset the cumulativeValue to 0 for the next run
+				cumulativeValue = 0;
 			} // End if (i == 11)
 		} // End Question Selection
 	}
