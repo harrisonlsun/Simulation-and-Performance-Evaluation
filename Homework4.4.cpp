@@ -22,6 +22,37 @@
 #include "c_lib/rngs.h"
 #include "checkarg/checkarg.h"
 
+void sortDataIntoBins(const std::vector<double>& data, int numBins, std::vector<std::pair<double, long>>& meanOfBinAndCount) {
+	// Initialize the meanOfBinAndCount vector with empty bins and counts of 0
+	meanOfBinAndCount.clear();
+	for (int i = 0; i < numBins; i++) {
+		meanOfBinAndCount.push_back(std::make_pair(0.0, 0));
+	}
+
+	// Find the range of the data
+	double minData = *std::min_element(data.begin(), data.end());
+	double maxData = *std::max_element(data.begin(), data.end());
+	double range = maxData - minData;
+
+	// Calculate the width of each bin
+	double binWidth = range / numBins;
+
+	// Sort the data into bins and update the mean and count of each bin
+	for (int i = 0; i < data.size(); i++) {
+		// Determine which bin the data point belongs to
+		int binIndex = std::min(static_cast<int>((data[i] - minData) / binWidth), numBins - 1);
+
+		// Update the mean and count of the bin
+		double binMean = meanOfBinAndCount[binIndex].first;
+		long binCount = meanOfBinAndCount[binIndex].second;
+		binMean = (binMean * binCount + data[i]) / (binCount + 1);
+		binCount++;
+		meanOfBinAndCount[binIndex] = std::make_pair(binMean, binCount);
+	}
+}
+
+
+
 /**
  * int main() - The main function
  *
@@ -48,13 +79,13 @@ int main(int argc, char* argv[])
 	
 	/*****************************************************************************************************************************************************************
 
-		The number of bins is chosen to be 15. This is significantly larger than the minimum k = 6. The reason for this choice is that the service times are empirical 
+		The number of bins is chosen to be 18 This is significantly larger than the minimum k = 6. The reason for this choice is that the service times are empirical 
 		data and may have significant outliers that would not fit well with other data when given too few bins. However, 22 bins would be too many, as the data has
-		high variance and would thus have a lot of empty bins. 15 bins is a good compromise between the two.
+		high variance and would thus have a lot of empty bins. 18 bins is a good compromise between the two.
 		
 	*****************************************************************************************************************************************************************/
 	
-	int nBins{15};
+	int nBins{18};
 	
 	// File names
 	std::string inputFileName{};
@@ -135,36 +166,21 @@ int main(int argc, char* argv[])
 	}
 	sample_std = sqrt(sample_std / (service_times.size() - 1));
 
-	// Bin the data into nBins bins
-	double max_service_time = *std::max_element(service_times.begin(), service_times.end());
-	double min_service_time = *std::min_element(service_times.begin(), service_times.end());
-	
-	// Calculate the bin width
-	double bin_width = (max_service_time - min_service_time) / nBins;
+	// Vector to store the bin information as a pair
+	std::vector<std::pair<double, long>> BinVector;
 
-	// Put the data in the bins
-	for (std::vector<double>::iterator i = service_times.begin(); i != service_times.end(); ++i)
-	{
-		// Find the bin that the data point belongs to
-		for (int j = 0; j < nBins; ++j)
-		{
-			if (*i >= (double) j * bin_width && *i < (double) (j + 1) * bin_width)
-			{
-				*i = j;
-				break;
-			}
-		}
-	}
-	
-	// Output the binned histogram data to a file
+	// Call the function to sort the data into bins
+	sortDataIntoBins(service_times, nBins, BinVector);
+
+	// Store the bin means and counts in output file
 	std::ofstream outfile;
 	outfile.open(outputFileName.c_str());
 	
-	// Output the data as a histogram
-	for (std::vector<double>::iterator i = service_times.begin(); i != service_times.end() + 1; ++i)
+	for (int i = 0; i < nBins; ++i)
 	{
-		outfile << *i << ", " << (double) std::count(service_times.begin(), service_times.end(), *i) / service_times.size() << std::endl;
+		outfile << BinVector[i].first << ", " << BinVector[i].second << std::endl;
 	}
+	
 	outfile.close();
 	
 	// Calculate the histogram mean and standard deviation
@@ -173,15 +189,17 @@ int main(int argc, char* argv[])
 	
 	for (int i = 0; i < nBins; ++i)
 	{
-		histogram_mean += i * std::count(service_times.begin(), service_times.end(), i);
+		histogram_mean += BinVector[i].first * BinVector[i].second;
 	}
-	histogram_mean = histogram_mean / service_times.size();
-
+	
+	histogram_mean /= nHistogram;
+	
 	for (int i = 0; i < nBins; ++i)
 	{
-		histogram_std += pow(i - histogram_mean, 2) * std::count(service_times.begin(), service_times.end(), i);
+		histogram_std += BinVector[i].second * pow(BinVector[i].first - histogram_mean, 2);
 	}
-	histogram_std = sqrt(histogram_std / (service_times.size() - 1));
+	
+	histogram_std = sqrt(histogram_std / (nHistogram - 1));
 	
 	// Output the means and standard deviations
 	std::cout << "The sample mean: " << sample_mean << " and sample standard deviation: " << sample_std << std::endl;
