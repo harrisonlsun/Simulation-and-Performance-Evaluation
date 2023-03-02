@@ -1,0 +1,103 @@
+\textbf{Calculate $\bar{x}$ and $s$ by hand, using the two-pass algorithm, the one-pass algorithm, and Welford's algorithm in the following two cases.}\\\\
+
+\noindent \textbf{(a) Data based on $n=3$ observations: $x_1=1,x_2=6,x_3=2$.} \\\\
+
+One Pass Mean: \\
+\begin{align*}
+    \bar{x}&=\frac{1}{n}\sum_{i=1}^{n}x_i\\
+    \bar{x}_1&=\frac{1}{1}\sum_{i=1}^{1}x_i = 1\\
+    \bar{x}_2&=\frac{1}{2}\sum_{i=1}^{2}x_i=3.5\\
+    \bar{x}_3&=\frac{1}{3}\sum_{i=1}^{3}x_i = 3\\
+\end{align*}
+
+Welford's Algorithm Mean: \\
+\begin{align*}
+    \bar{x}_i &= \bar{x}_{i-1}+\frac{1}{i}(x_i-\bar{x}_{i-1})\\
+    \bar{x}_1 &= 0+\frac{1}{1}(1-0)=1\\
+    \bar{x}_2 &= 1+\frac{1}{2}(6-1)=3.5\\
+    \bar{x}_3 &= 3.5+\frac{1}{3}(2-3.5)=3\\
+\end{align*}
+
+\newpage
+Two-Pass Standard Deviation: \\\\
+\indent\indent Pass 1: Calculate Mean (From Above)\\
+$$\bar{x}_1=1$$
+$$\bar{x}_2=3.5$$
+$$\bar{x}_3=3$$\\
+
+\indent\indent Pass 2: Compute the Squared Differences About $\bar{x}$ \\
+\begin{align*}
+    s&=\sqrt[]{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2}\\
+    s_1&=\sqrt[]{\frac{1}{1}\sum_{i=1}^{1}(x_i - \bar{x}_1)^2}=0\\
+    s_2&=\sqrt[]{\frac{1}{2}\sum_{i=1}^{2}(x_i - \bar{x}_2)^2}=2.5\\
+    s_3&=\sqrt[]{\frac{1}{3}\sum_{i=1}^{3}(x_i - \bar{x}_3)^2}=2.16\\
+\end{align*}
+
+One-Pass Standard Deviation: \\
+\begin{align*}
+    s^2&=\frac{1}{n}\sum_{i=1}^{n}(x_i^2)-\bar{x}^2\\
+    s&=\sqrt[]{\frac{1}{n}\sum_{i=1}^{n}(x_i^2)-\bar{x}^2}\\
+    s_1&=\sqrt[]{\frac{1}{1}\sum_{i=1}^{1}(x_i^2)-\bar{x}_1^2}=0\\
+    s_2&=\sqrt[]{\frac{1}{2}\sum_{i=1}^{2}(x_i^2)-\bar{x}_2^2}=2.5\\
+    s_3&=\sqrt[]{\frac{1}{3}\sum_{i=1}^{3}(x_i^2)-\bar{x}_1^2}=2.16\\
+\end{align*}
+
+\newpage
+Welford's Algorithm Standard Deviation: \\
+\begin{align*}
+    v_i &= v_{i-1} + (\frac{i-1}{i})(x_i-\bar{x}_{i-1})^2\\
+    v_1 &= v_{0} + (\frac{0}{1})(x_1-\bar{x}_{0})^2=0\\
+    v_2 &= v_{1} + (\frac{1}{2})(x_2-\bar{x}_{1})^2=12.5\\
+    v_3 &= v_{2} + (\frac{2}{3})(x_3-\bar{x}_{2})^2=14\\
+    s_i^2 &= \sqrt[]{\frac{v_{i-1} + (\frac{i-1}{i})(x_i-\bar{x}_{i-1})^2}{i}}\\
+    s_1^2 &= \sqrt[]{\frac{0}{1}}=0\\
+    s_2^2 &= \sqrt[]{\frac{12.5}{2}}=2.5\\
+    s_3^2 &= \sqrt[]{\frac{14}{3}}=2.16\\
+\end{align*}
+
+\noindent \textbf{(b) The sample path $x(t)=3$ for $0<t\leq 2$, and $x(t)=8$ for $2<t\leq 5$, over the time interval $0<t<5$.}\\\\
+
+One Pass Mean: \\
+\begin{align*}
+    \bar{x} &= \frac{1}{\tau}\int_{0}^{\tau}x(t)dt\\
+    \bar{x}_1 &= \frac{1}{2}\int_{0}^{2}x(t)dt=3\\
+    \bar{x}_2 &= \frac{1}{5}\int_{0}^{2}x(t)dt + \frac{1}{5}\int_{2}^{5}x(t)dt=6\\
+\end{align*}
+
+Welford's Algorithm Mean: \\
+\begin{align*}
+    \bar{x}_i &= \frac{1}{t_i}(x_1\delta_1+x_2\delta_2+\ldots+x_i\delta_i)\\
+    \bar{x}_i &= \bar{x}_{i-1} + \frac{\delta_i}{t_i}(x_i-\bar{x}_{i-1})\\
+    \bar{x}_1 &= 0 + \frac{2}{2}(3 - 0)=3\\
+    \bar{x}_2 &= 3 + \frac{3}{5}(8 - 3)=6\\
+\end{align*}
+
+\newpage
+
+Two Pass Standard Deviation: \\\\
+\indent\indent Pass 1: Calculate Path Mean (From Above)\\
+$$\bar{x}_1=3$$
+$$\bar{x}_2=6$$\\
+\indent\indent Pass 2: Compute the Squared Differences About $\bar{x}$ \\
+\begin{align*}
+    s_i &= \sqrt[]{\frac{1}{\tau}\int_{0}^{\tau}(x(t)-\bar{x})^2dt}\\
+    s_1 &= \sqrt[]{\frac{1}{2}\int_{0}^{2}(x(t)-3)^2dt}=0\\
+    s_2 &= \sqrt[]{\frac{1}{5}\int_{0}^{2}(x(t)-6)^2dt+\frac{1}{5}\int_{2}^{5}(x(t)-6)^2dt}=2.45\\
+\end{align*}
+
+One Pass Standard Deviation: \\
+\begin{align*}
+    s_i &= \sqrt[]{(\frac{1}{t_n}\sum_{i=1}^{n}x_i^2\delta_i)-\bar{x}^2} \\
+    s_1 &= \sqrt[]{(\frac{1}{2}\sum_{i=1}^{1}3^2\times 2)-3^2}=0\\
+    s_2 &= \sqrt[]{\frac{1}{5}(3^2\times 2+8^2\times 3)-6^2}=2.45\\
+\end{align*}
+
+Welford's Algorithm Standard Deviation: \\
+\begin{align*}
+    v_i&=v_{i-1}+\frac{\delta_it_{i-1}}{t_i}(x_i-\bar{x}_{i-1})^2\\
+    v_1&=0+\frac{2\times 0}{2}(3-0)^2=0\\
+    v_2&=0+\frac{3\times 2}{5}(8-3)^2=30\\
+    s_i&=\sqrt[]{\frac{v_i}{t_i}}\\
+    s_1&=\sqrt[]{\frac{0}{2}}=0\\
+    s_1&=\sqrt[]{\frac{30}{5}}=2.45\\
+\end{align*}
