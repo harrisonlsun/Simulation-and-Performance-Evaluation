@@ -11,7 +11,7 @@ import sys
 data = np.genfromtxt(sys.argv[1], delimiter=',')
 
 # Set font size
-plt.rcParams.update({'font.size': 5})
+# plt.rcParams.update({'font.size': 5})
 
 # Plot the bar chart
 plt.bar(data[:,0], data[:,1], align='center', alpha=0.5)
