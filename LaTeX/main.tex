@@ -65,4 +65,72 @@ Completed: \today\
 
 \section{\textbf{Ex. 4.3.5}}
 \input{Sections/Q4}
+\newpage
+\section{\textbf{Appendices: Histogram Code}}
+\noindent Histogram:\\
+\begin{lstlisting}[style=CStyle]
+# Harrison Sun (sun.har@northeastern.edu)
+# EECE 5643 - Simulation and Performance Evaluation
+
+# This python script generates a bar chart taking in csv inputs. The first column is the x axis value and the second column is the y axis value.
+
+import numpy as np
+import matplotlib.pyplot as plt
+import sys
+
+# Read in the csv file
+data = np.genfromtxt(sys.argv[1], delimiter=',')
+
+# Set font size
+# plt.rcParams.update({'font.size': 5})
+
+# Plot the bar chart
+plt.bar(data[:,0], data[:,1], align='center', alpha=0.5)
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.xticks(data[:,0])
+
+# Save the bar chart
+plt.savefig(sys.argv[2])
+
+\end{lstlisting}
+\newpage
+\noindent Continuous Histogram:\\
+\begin{lstlisting}[style=CStyle]
+import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Get the input and output file names from the command-line arguments
+input_file = sys.argv[1]
+output_file = sys.argv[2]
+
+# Read the data from the CSV file
+data = pd.read_csv(input_file, header=None)
+
+# Filter out the rows with 0 values
+data = data[data[0] != 0]
+
+# Create the step histogram
+plt.hist(data[0], bins=data[0].nunique(), weights=data[1], histtype='step')
+
+# Set the x-axis label
+plt.xlabel('Values')
+
+# Set the y-axis label
+plt.ylabel('Frequency')
+
+# Set the x-axis tick labels
+plt.xticks(data[0])
+
+# Rotate x labels
+plt.xticks(rotation=90)
+
+# Save the plot to a PNG file
+plt.savefig(output_file)
+
+
+\end{lstlisting}
 \end{document}
+
+
